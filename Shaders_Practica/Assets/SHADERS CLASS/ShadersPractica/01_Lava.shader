@@ -13,6 +13,12 @@ Shader "ENTI/01_Lava"
         _MoveSpeed ("Move Speed", Float) = 0.01
 
         _PulsePower("Pulse Power", Float) = 1.0
+
+
+        _Frequency("Frequency", Float) = 1.0
+        _Amplitude("Amplitude", Float) = 1.0
+        _Speed("Speed", Float) = 1.0
+
     }
     SubShader
     {
@@ -51,6 +57,9 @@ Shader "ENTI/01_Lava"
             float _FlowSpeed;
             float _MoveSpeed;
             float _PulsePower;
+            float _Frequency;
+            float _Amplitude;
+            float _Speed;
 
             v2f vert (appdata v)
             {
@@ -68,6 +77,12 @@ Shader "ENTI/01_Lava"
                 float2 flowVector = tex2Dlod(_NoiseTex, float4(o.uv, 0, 0)).rg;
                 o.uv += o.uv - flowVector * sin(_Time.y * _FlowSpeed) * _FlowAmount * _Time * (_MoveSpeed / 100);
 
+
+                float timeOffset = _Time.y * _Speed;
+                float offset = sin(o.uv.x * _Frequency + timeOffset) * _Amplitude;
+
+                // Modificamos la posición del vértice en el eje Y
+                o.vertex.y += offset;
                 return o;
             }
 

@@ -85,38 +85,40 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Amplitude: 0.3
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FlowAmount: 1
+    - _FlowAmount: 1.08
     - _FlowMapSpeed: 1
-    - _FlowSpeed: 1
+    - _FlowSpeed: 0.41
     - _FlowStrength: 1
+    - _Frequency: 5
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Height: 1
     - _HeightBias: 0.552
-    - _HeightMultiplier: 0.27
+    - _HeightMultiplier: 6
     - _HeightScale: 0.23
     - _Metallic: 0
     - _Mode: 0
-    - _MoveSpeed: 0.01
-    - _NoiseScale: 1.92
+    - _MoveSpeed: 0.55
+    - _NoiseScale: 2
     - _NoiseSpeed: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _PulsePower: 1
+    - _PulsePower: 0.73
     - _RefractionAmount: 0.11
     - _RefractionDistortion: 0.18
     - _Scale: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 0.045
+    - _Speed: 3
     - _SrcBlend: 1
     - _Strength: 0.86
-    - _Temperature: 1
+    - _Temperature: 0.96
     - _TemperatureStrength: 1
     - _UVSec: 0
     - _WaveAmplitude: 1
@@ -125,8 +127,8 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _Flow1: {r: 1, g: 0, b: 0, a: 0}
-    - _Flow2: {r: 0.5, g: -0.5, b: 0, a: 0}
+    - _Flow1: {r: 0, g: 1, b: 0, a: 0}
+    - _Flow2: {r: 0, g: 0, b: 0, a: 0}
     - _FlowDirection: {r: -1, g: 0, b: 0, a: 0}
     - _FlowMapMovement: {r: 0, g: 1, b: 0, a: 0}
     - _FlowmapMovement: {r: 1, g: 1, b: 0, a: 0}

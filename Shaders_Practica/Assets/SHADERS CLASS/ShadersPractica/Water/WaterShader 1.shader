@@ -1,4 +1,4 @@
-Shader "ENTI/01_Lava"
+Shader "ENTI/AguaShader"
 {
     Properties
     {
@@ -12,13 +12,17 @@ Shader "ENTI/01_Lava"
         _FlowSpeed("Flow Speed", Float) = 1.0
         _MoveSpeed("Move Speed", Float) = 0.01
 
-        _PulsePower("Pulse Power", Float) = 1.0
-        _Temperature("Temperature", Range(0, 1)) = 0.5
+        _Temperature("Temperature", Float) = 1.0
+
+
+        _Frequency("Frequency", Float) = 1.0
+        _Amplitude("Amplitude", Float) = 1.0
+        _Speed("Speed", Float) = 1.0
+
     }
         SubShader
         {
             Tags { "RenderType" = "Opaque" }
-            LOD 200
 
             Pass
             {
@@ -52,36 +56,49 @@ Shader "ENTI/01_Lava"
                 float _FlowAmount;
                 float _FlowSpeed;
                 float _MoveSpeed;
-                float _PulsePower;
                 float _Temperature;
+                float _Frequency;
+                float _Amplitude;
+                float _Speed;
 
                 v2f vert(appdata v)
                 {
+                    //1. texture
                     v2f o;
                     o.vertex = UnityObjectToClipPos(v.vertex);
                     o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
+                    //2. flow map
                     o.uv += _Flow1.xy * _Time.x;
                     o.noise_uv = TRANSFORM_TEX(v.uv, _NoiseTex);
                     o.noise_uv += _Flow2.xy * _Time.x;
 
+                    //3. extra flow map
                     float2 flowVector = tex2Dlod(_NoiseTex, float4(o.uv, 0, 0)).rg;
                     o.uv += o.uv - flowVector * sin(_Time.y * _FlowSpeed) * _FlowAmount * _Time * (_MoveSpeed / 100);
 
+
+                    float timeOffset = _Time.y * _Speed;
+                    float offset1 = sin(o.uv.x * _Frequency + timeOffset) * _Amplitude;
+                    float offset2 = sin(o.uv.y * _Frequency + timeOffset) * _Amplitude;
+
+                    // Modificamos la posición del vértice en el eje Y
+                    o.vertex.y += offset1 + offset2;
                     return o;
                 }
 
                 fixed4 frag(v2f i) : SV_Target
                 {
+                    //float2 uv = i.uv;
                     fixed4 noise = tex2D(_NoiseTex, i.noise_uv);
                     fixed2 disturb = noise.xy * 0.5 - 0.5;
 
                     fixed4 col = tex2D(_MainTex, i.uv + disturb);
                     fixed noisePulse = tex2D(_NoiseTex, i.noise_uv + disturb).a;
 
-                    fixed4 temper = col * noisePulse * _PulsePower + (col * col - 0.1);
+                    fixed4 temper = col * noisePulse * _Temperature + (col * col - 0.1);
 
-                    col = temper * _Temperature;
+                    col = temper;
                     col.a = 1.0;
                     return col;
                 }
